@@ -1,0 +1,6 @@
+__pycache__/
+images/*
+!images/.gitkeep
+DbRentacar.db
+env/
+.vscode/

@@ -110,6 +110,8 @@ def get_by_id(db : Session, id : int):
 
 def delete(db : Session, id : int):
     check_vehicle(id,db)
+    
+    db.query(DbPhoto).filter(DbPhoto.vehicle_id==id).delete()
     vehicle= db.query(DbVehicle).filter(DbVehicle.id==id).first()
     db.delete(vehicle)
     db.commit()

@@ -32,7 +32,7 @@ class UserDisplay(BaseModel):
 class VehicleBase(BaseModel):
     brand : str
     model : str
-    price : float
+    price : int
     location : str
     fuel : FuelEnum
     transmission : TransmissionEnum

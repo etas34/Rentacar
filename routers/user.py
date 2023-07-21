@@ -4,7 +4,7 @@ from sqlalchemy.orm.session import Session
 from database.database import get_db
 from database  import db_user
 
-from routers.schemas import UserBase, UserDisplay, VehicleDisplay
+from routers.schemas import BookingDisplay, UserBase, UserDisplay, VehicleDisplay
 
 
 router = APIRouter(
@@ -25,6 +25,13 @@ def get_user(id: int, db: Session = Depends(get_db)):
 @router.get("/{id}/vehicles", response_model=List[VehicleDisplay])
 def get_user_vehicles(id: int, db: Session = Depends(get_db)):
     return db_user.get_vehicles_by_id(db, id)
+
+
+@router.get("/{id}/bookings", response_model=List[BookingDisplay])
+def get_user_bookings(id: int, db: Session = Depends(get_db)):
+    return db_user.get_bookings_by_user_id(db, id)
+
+
 
 
 @router.get("/", response_model=List[UserDisplay])

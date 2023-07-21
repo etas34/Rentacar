@@ -1,11 +1,11 @@
 
 from fastapi import HTTPException,status
 from sqlalchemy.orm import Session
-from database.models import DbUser, DbVehicle
+from database.hashing import Hash
 from helpers import check_user
+from database.models import DbBooking, DbUser, DbVehicle
 
 from routers.schemas import UserBase
-from database.hashing import Hash
 
 
 def create (db: Session, request: UserBase): 
@@ -63,3 +63,18 @@ def delete(db: Session, id: int):
 def get_vehicles_by_id(db : Session, id : int):
     check_user(id,db)
     return db.query(DbVehicle).filter(DbVehicle.owner_id==id).all()
+
+
+
+def get_bookings_by_user_id(db : Session, id : int):
+
+    check_user(id, db)
+
+    # Perform the join between DbBooking, DbVehicle, and DbUser tables
+    bookings = db.query(DbBooking). \
+        join(DbVehicle, DbBooking.vehicle_id == DbVehicle.id). \
+        join(DbUser, DbVehicle.owner_id == DbUser.id). \
+        filter(DbUser.id == id). \
+        all()
+
+    return bookings
